@@ -1,0 +1,18 @@
+# Використовуємо повний базовий образ
+FROM python:3.9
+
+WORKDIR /app
+
+# Встановлюємо системні залежності 
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    build-essential
+
+# Встановлюємо Python залежності 
+RUN pip install torch torchvision pillow requests --index-url https://download.pytorch.org/whl/cpu
+
+COPY model.pt .
+COPY inference.py .
+
+CMD ["python", "inference.py"]
