@@ -2,22 +2,19 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: nginx-app
-  namespace: infra-tools 
+  namespace: infra-tools
 spec:
   project: default
   source:
     repoURL: https://charts.bitnami.com/bitnami
     chart: nginx
-    targetRevision: 15.4.4
+    targetRevision: 18.2.5   
     helm:
       values: |
         service:
           type: ClusterIP
-          port: 80
         persistence:
           enabled: false
-        image:
-          tag: latest
   destination:
     server: https://kubernetes.default.svc
     namespace: my-app-ns 
