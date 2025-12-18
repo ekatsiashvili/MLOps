@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mlflow
+  namespace: infra-tools
+spec:
+  project: default
+  source:
+    repoURL: https://community-charts.github.io/helm-charts
+    chart: mlflow
+    targetRevision: 0.7.19
+    helm:
+      values: |
+        image:
+          # МІНЯЄМО ДЖЕРЕЛО НА ОФІЦІЙНЕ:
+          repository: ghcr.io/mlflow/mlflow
+          tag: v2.14.1
+          pullPolicy: IfNotPresent
+        backendStore:
+          postgres:
+            enabled: false 
+            host: postgresql.infra-tools.svc.cluster.local
+            port: 5432
+            database: mlflow
+            user: mlflow
+            password: mlflowpassword
+        artifactRoot:
+          s3:
+            enabled: true
+            bucket: mlflow-artifacts
+            awsAccessKeyId: minioadmin
+            awsSecretAccessKey: minioadminpassword
+            mlflowS3EndpointUrl: http://minio.infra-tools.svc.cluster.local:9000
+        service:
+          type: ClusterIP
+          port: 5000
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: infra-tools
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio
+  namespace: infra-tools
+spec:
+  project: default
+  source:
+    repoURL: https://charts.min.io/
+    chart: minio
+    targetRevision: 5.0.14 
+    helm:
+      values: |
+        rootUser: minioadmin
+        rootPassword: minioadminpassword
+        mode: standalone
+        replicas: 1
+        persistence:
+          enabled: false
+        service:
+          type: ClusterIP
+          port: 9000
+        consoleService:
+          type: ClusterIP
+          port: 9001
+        resources:
+          requests:
+            memory: 256Mi
+            cpu: 100m
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: infra-tools
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

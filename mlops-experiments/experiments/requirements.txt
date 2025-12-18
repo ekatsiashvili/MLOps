@@ -1,0 +1,6 @@
+mlflow
+boto3
+psycopg2-binary
+scikit-learn
+prometheus-client
+pandas
