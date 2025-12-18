@@ -1,0 +1,39 @@
+# .env
+.env
+*.env
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+crash.log
+*.tfplan
+*.tfstate.backup
+
+# VSCode, IDE
+.vscode/
+.idea/
+*.swp
+
+# Python/Django
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.env
+venv/
+env/
+
+# Docker
+*.log
+
+# Helm
+charts/**/.DS_Store
+charts/**/tmp/
+charts/**/test/
+
+# OS
+.DS_Store
+Thumbs.db
