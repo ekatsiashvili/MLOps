@@ -2,7 +2,7 @@ name: Train Model Pipeline
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "*" ]
 
 jobs:
   train-model:
